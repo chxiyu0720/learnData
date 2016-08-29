@@ -19,5 +19,7 @@
 			<attribute name="owner.project.facets" value="jst.web.jstl"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/hibernate5.0"/>
+	<classpathentry kind="lib" path="/COOBAR_DESKTOP_API/WebRoot/WEB-INF/lib/mysql-connector-java-5.1.5.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
