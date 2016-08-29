@@ -1,9 +1,6 @@
 package com.chen.test.controller;
 
 import java.util.Date;  
-
-import javax.xml.registry.infomodel.User;
-
 import org.hibernate.Session;  
 import org.hibernate.SessionFactory;  
 import org.hibernate.cfg.Configuration;  
@@ -30,12 +27,12 @@ public class TestClient {
             session.beginTransaction();  
             //给对象赋值.  
             UserInfo user = new UserInfo();  
-            user.setUsername("小三");  
-            user.setPassword("123");  
+            user.setUsername("小婊砸");  
+            user.setPassword("43423");  
             user.setCreate_time(new Date());  
             user.setAge(20);
             user.setDeleted(false);
-            user.setSex("男");
+            user.setSex("女");
               
             //保存user对象到数据库.  
             // 一个实体类对象对应一个数据库中的表.  
