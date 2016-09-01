@@ -32,14 +32,16 @@ public class SelectTest {
 	public void selectId() {
 		Session session = BaseSessionUtil.getSession();
 		/**
-		 * get方法查询
+		 * get方法查询：手动构造对象，若不存在返回null（推荐）
 		 * 参数分别为目标对象以及所要查询数据的主键id值
 		 */
 		UserInfo info = session.get(UserInfo.class, 5);
-		System.out.println(info.getUsername() + "-----" + info.getPassword());
+		if (info != null) {
+			System.out.println(info.getUsername() + "-----" + info.getPassword());
+		}
 		
 		/**
-		 * load方法查询
+		 * load方法查询：加载对象，若不存在会抛出空指针异常
 		 * 参数分别为目标对象以及所要查询数据的主键id值
 		 */
 		UserInfo userInfo = session.load(UserInfo.class, 6);

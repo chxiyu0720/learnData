@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.chen.test.bean">  
+   <class name="UserLink" table="user_link" >  
+      <id name="id">  
+         <generator class="native" />  
+      </id>  
+      <property name="qq"/>
+      <property name="email"/>
+      <property name="deleted"/>
+      <property name="create_time"/>
+      <many-to-one name="group_id" cascade="save-update"></many-to-one>  
+   </class>  
+</hibernate-mapping>

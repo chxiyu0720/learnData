@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC   
-    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
-    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<!-- hibernate基本类映射：一个javabean类对应一个表 -->
 <hibernate-mapping package="com.chen.test.bean">  
-    <class name="UserInfo" >  
-        <id name="id">  
+    <class name="UserInfo" table="userinfo">  
+        <id name="id" length="32" access="property">  
             <generator class="identity" />  
         </id>  
-        <property name="username"/>  
+        <property name="username" length="30" unique="true" not-null="true"/>  
         <property name="password"/>  
         <property name="create_time"/>  
         <property name="sex"/>

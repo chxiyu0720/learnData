@@ -1,19 +1,35 @@
 package com.chen.test.controller;
 
 import java.util.Date;  
+
 import org.hibernate.Session;  
 import org.hibernate.SessionFactory;  
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;  
+import org.junit.Test;
 
 import com.chen.test.bean.UserInfo;
+import com.chen.test.utils.BaseSessionUtil;
   
-/** 
- * 客户端向表中添加数据. 
- * @author summer 
+/**
+ * 测试添加数据
+ * 测试更新修改数据
  * 
- */  
-public class TestClient {  
-    public static void main(String[] args) {  
+ * @author
+ *			chenxiaoyu
+ * @QQ
+ *			1524904743
+ * @email
+ *			1524904743@qq.com
+ * @date
+ *			2016年8月29日, 下午4:03:05
+ */
+public class TestClient {
+	/**
+	 * 传统源码模式添加
+	 */
+	@Test
+    public void addData() {  
         //默认读取的是hibernate.cfg.xml 文件.  
         Configuration cfg = new Configuration().configure();  
         //建立SessionFactory.  
@@ -53,5 +69,71 @@ public class TestClient {
                 }  
             }  
         }  
-    }  
+    } 
+	
+	/**
+	 * 采用封装的工具类BaseSessionUtil添加
+	 */
+	@Test
+	public void addDataByUtil() {
+		//获取session
+		Session session = BaseSessionUtil.getSession();
+		//开启事务
+		Transaction tran = session.beginTransaction();
+		try {
+			//创建临时对象
+			UserInfo info = new UserInfo();
+			info.setUsername("小无");
+			info.setAge(30);
+			info.setPassword("fewg");
+			info.setSex("女");
+			info.setCreate_time(new Date());
+			//数据持久化
+			session.save(info);
+			
+			//提交事务，同步数据，数据脱管
+			tran.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			//事务回滚
+			tran.rollback();
+		} finally {
+			//关闭session
+			BaseSessionUtil.closeSession(session);
+		}
+	}
+	
+	/**
+	 * 测试更新修改数据，先查询获取目标对象，在修改对应的值，最后在事务提交
+	 */
+	@Test
+	public void updateUser() {
+		//获取session
+		Session session = BaseSessionUtil.getSession();
+		//开启事务
+		Transaction tran = session.beginTransaction();
+		try {
+			//get方法构造对象查询（推荐）
+			int id = 70;
+			UserInfo info = session.get(UserInfo.class, id);
+			if (info != null) {
+				info.setUsername("修改三");
+				session.update(info);
+			}
+			
+			//load方法加载对象查询
+			int ids = 13;
+			UserInfo userInfo = session.load(UserInfo.class, ids);
+			userInfo.setUsername("修改四");
+			session.update(userInfo);
+			
+			//事务提交
+			tran.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			tran.rollback();
+		} finally {
+			BaseSessionUtil.closeSession(session);
+		}
+	}
 }  
