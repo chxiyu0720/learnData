@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.junit.Test;
 
 import com.chen.test.bean.UserInfo;
@@ -70,7 +72,7 @@ public class CacheSecondTest {
 	 * demo总结：
 	 * 	1、query的非主键查询，不仅需要开启查询缓存和二级缓存，而且还需要在查询语句后调用setCacheable(true)，才能使的二级缓存生效。
 	 *  2、query的list方法，与get和load调用二级缓存的原理相似。
-	 *  3、query
+	 *  3、query的iterate方法，也支持二级缓存和查询缓存，但是在实际的使用中，它任会发出sql查询语句，但是不会查询数据库
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
@@ -111,5 +113,38 @@ public class CacheSecondTest {
 			System.out.println(object.getPassword());
 		}
 		BaseSessionUtil.closeSession(session4);
+	}
+	
+	/**
+	 * SessionFactory管理二级缓存
+	 */
+	@Test
+	public void mageCache() {
+		Session session = BaseSessionUtil.getSession();
+		Transaction tran = session.beginTransaction();
+		try {
+			UserInfo info = session.get(UserInfo.class, 16);
+			System.out.println(info.getUsername());
+			tran.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			tran.rollback();
+		} finally {
+			BaseSessionUtil.closeSession(session);
+		}
+		SessionFactory factory = BaseSessionUtil.getSessionFactory();
+		System.out.println(factory.isClosed());
+		Session session2 = BaseSessionUtil.getSession();
+		Transaction tran2 = session2.beginTransaction();
+		try {
+			UserInfo info2 = session2.get(UserInfo.class, 16);
+			System.out.println(info2.getUsername());
+			tran2.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			tran2.rollback();
+		} finally {
+			BaseSessionUtil.closeSession(session2);
+		}
 	}
 }
