@@ -22,7 +22,7 @@ import com.chen.test.utils.BaseSessionUtil;
  * @date
  *			2016年8月31日, 下午2:35:22
  */
-public class CacheTest {
+public class CacheFirstTest {
 	
 	/**
 	 * 一级缓存，即session缓存，生命周期很短，和session一样长

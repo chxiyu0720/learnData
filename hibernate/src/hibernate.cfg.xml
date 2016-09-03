@@ -3,7 +3,8 @@
     "-//Hibernate/Hibernate Configuration DTD 3.0//EN"  
     "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">  
 <hibernate-configuration>  
-    <session-factory>  
+    <session-factory>
+    	<!-- JDBC数据库连接配置 -->
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>  
         <property name="hibernate.connection.url">jdbc:mysql://192.168.11.61:3306/test</property>  
         <property name="hibernate.connection.username">root</property>  
@@ -12,6 +13,24 @@
         <property name="hibernate.show_sql">true</property>
         <property name="hbm2ddl.auto">update</property>  
         <!--<property name="hibernate.format_sql">true</property>  -->  
-        <mapping resource="UserInfo.hbm.xml"/>  
+        
+        <!--****************** 【二级缓存配置】****************** -->
+        <!-- 开启query查询缓存 -->  
+       	<property name="hibernate.cache.use_query_cache">true</property>
+        <!-- 开启二级缓存 -->
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+       
+        <!-- 指定使用哪一个缓存框架 -->
+        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+       
+        <!-- bean文件映射配置 -->
+        <mapping resource="UserInfo.hbm.xml"></mapping>
+        
+        <!-- 指定哪一些类，需要加入二级缓存 -->  
+        <class-cache usage="read-only" class="com.chen.test.bean.UserInfo"/>  
+        
+        <!-- 配置哪些bean文件使用二级缓存 注意放置的位置，必须在mapping标签下面
+        <class-cache class="com.chen.test.bean.UserInfo" region="UserInfo" usage="read-only"/>-->
+        
     </session-factory>  
 </hibernate-configuration>   
