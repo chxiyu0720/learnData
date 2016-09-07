@@ -17,7 +17,7 @@ import org.hibernate.cfg.Configuration;
  *			2016年8月29日, 下午2:38:45
  */
 public class BaseSessionUtil {
-	
+	       
 	private static SessionFactory factory;
 	
 	static {
